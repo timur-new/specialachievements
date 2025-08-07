@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Особые ачивки</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #fff;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .achievement-card {
+            background: linear-gradient(145deg, #1e1e30, #252538);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .achievement-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 18px;
+            padding: 2px;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: exclude;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .achievement-card:hover::before {
+            opacity: 1;
+        }
+        
+        .achievement-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8);
+        }
+        
+        .achievement-badge {
+            width: 140px;
+            height: 140px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .achievement-badge::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            animation: rotate 4s linear infinite;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .achievement-badge::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        /* Золотая коллекция - Golden */
+        .golden-badge::before {
+            background: conic-gradient(from 0deg, #ffd700, #ffed4e, #b8860b, #ffd700);
+        }
+        .golden-badge::after {
+            background: radial-gradient(circle, #2c2c54, #1a1a2e);
+        }
+        .golden-badge .icon {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        /* Железная хватка - Iron */
+        .iron-badge::before {
+            background: conic-gradient(from 0deg, #c0c0c0, #e5e5e5, #808080, #c0c0c0);
+        }
+        .iron-badge::after {
+            background: radial-gradient(circle, #2c2c54, #1a1a2e);
+        }
+        .iron-badge .icon {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(45deg, #c0c0c0, #e5e5e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        /* Королева сбора - Royal */
+        .royal-badge::before {
+            background: conic-gradient(from 0deg, #9c27b0, #e1bee7, #7b1fa2, #4a148c);
+        }
+        .royal-badge::after {
+            background: radial-gradient(circle, #2c2c54, #1a1a2e);
+        }
+        .royal-badge .icon {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(45deg, #9c27b0, #e1bee7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: bold;
+        }
+        
+        .achievement-card::before {
+            background: linear-gradient(45deg, #ff006e, #3a86ff, #06ffa5, #ffbe0b);
+        }
+        
+        .golden-card::before {
+            background: linear-gradient(45deg, #ffd700, #ffed4e, #b8860b, #ffd700);
+        }
+        
+        .iron-card::before {
+            background: linear-gradient(45deg, #c0c0c0, #e5e5e5, #808080, #c0c0c0);
+        }
+        
+        .royal-card::before {
+            background: linear-gradient(45deg, #9c27b0, #e1bee7, #7b1fa2, #4a148c);
+        }
+        
+        .achievement-title {
+            font-size: 1.6rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #fff, #e0e6ed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .achievement-condition {
+            color: #a8b2d1;
+            font-size: 1rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+        
+        .achievement-reward {
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .golden-reward {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #b8860b;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+        }
+        
+        .iron-reward {
+            background: linear-gradient(45deg, #c0c0c0, #e5e5e5);
+            color: #696969;
+            box-shadow: 0 0 20px rgba(192, 192, 192, 0.4);
+        }
+        
+        .royal-reward {
+            background: linear-gradient(45deg, #9c27b0, #e1bee7);
+            color: #4a148c;
+            box-shadow: 0 0 20px rgba(156, 39, 176, 0.4);
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 3s infinite ease-in-out;
+        }
+        
+        .particle:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { left: 20%; animation-delay: 0.5s; }
+        .particle:nth-child(3) { left: 30%; animation-delay: 1s; }
+        .particle:nth-child(4) { left: 40%; animation-delay: 1.5s; }
+        .particle:nth-child(5) { left: 50%; animation-delay: 2s; }
+        .particle:nth-child(6) { left: 60%; animation-delay: 2.5s; }
+        .particle:nth-child(7) { left: 70%; animation-delay: 0.3s; }
+        .particle:nth-child(8) { left: 80%; animation-delay: 0.8s; }
+        .particle:nth-child(9) { left: 90%; animation-delay: 1.3s; }
+        
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(100px) scale(0); 
+                opacity: 0; 
+            }
+            10% { 
+                opacity: 1; 
+                transform: translateY(90px) scale(1); 
+            }
+            90% { 
+                opacity: 1; 
+                transform: translateY(-90px) scale(1); 
+            }
+            100% { 
+                transform: translateY(-100px) scale(0); 
+                opacity: 0; 
+            }
+        }
+        
+        .golden-particles .particle {
+            background: #ffd700;
+            box-shadow: 0 0 6px #ffd700;
+        }
+        
+        .iron-particles .particle {
+            background: #c0c0c0;
+            box-shadow: 0 0 4px #c0c0c0;
+        }
+        
+        .royal-particles .particle {
+            background: #9c27b0;
+            box-shadow: 0 0 6px #9c27b0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 ОСОБЫЕ АЧИВКИ</h1>
+        
+        <div class="achievements-grid">
+            <!-- Золотая коллекция -->
+            <div class="achievement-card golden-card">
+                <div class="particles golden-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+                <div class="achievement-badge golden-badge">
+                    <div class="icon">♔</div>
+                </div>
+                <h3 class="achievement-title">GOLDEN COLLECTION</h3>
+                <p class="achievement-condition">5 командных ачивок</p>
+                <div class="achievement-reward golden-reward">🏖️ +3 дня отпуска в году</div>
+            </div>
+            
+            <!-- Железная хватка -->
+            <div class="achievement-card iron-card">
+                <div class="particles iron-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+                <div class="achievement-badge iron-badge">
+                    <div class="icon">⚔</div>
+                </div>
+                <h3 class="achievement-title">IRON GRIP</h3>
+                <p class="achievement-condition">3 месяца подряд 100%+ плана</p>
+                <div class="achievement-reward iron-reward">💸 Повышение оклада</div>
+            </div>
+            
+            <!-- Королева сбора -->
+            <div class="achievement-card royal-card">
+                <div class="particles royal-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+                <div class="achievement-badge royal-badge">
+                    <div class="icon">♛</div>
+                </div>
+                <h3 class="achievement-title">COLLECTION QUEEN</h3>
+                <p class="achievement-condition">10 ачивок (любых)</p>
+                <div class="achievement-reward royal-reward">💄 Косметика по запросу</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
